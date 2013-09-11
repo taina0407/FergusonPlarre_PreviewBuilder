@@ -117,7 +117,7 @@
                 // LIGHT
                 var light = new THREE.PointLight(0xffffff);
                 light.position.set(0, 150, 100);
-                scene.add(light);
+//                scene.add(light);
                 // FLOOR
                 //	var floorTexture = new THREE.ImageUtils.loadTexture( 'images/checkerboard.jpg' );
                 //	floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping; 
@@ -146,39 +146,40 @@
                 // radius, segmentsWidth, segmentsHeight
 //                var sphereGeom = new THREE.SphereGeometry(40, 32, 16);
 
-                var light2 = new THREE.AmbientLight(0xffffff);
+                var light2 = new THREE.AmbientLight(0xfffffff);
+//                light2.position.set(0, 150, 100);
                 scene.add(light2);
 
-//                //RECTANGLE CAKES
-//                var rectangleCakeData = new Array();
-//                rectangleCakeData['1'] = {
-//                    size: [67, 43],
-//                    side: 'side_3.png',
-//                    pipingColor: '#ffffff',
-//                    pipingSize: '1.5'
-//                };
+                //RECTANGLE CAKES
+                var rectangleCakeData = new Array();
+                rectangleCakeData['1'] = {
+                    size: [67, 43],
+                    side: 'side_3.jpg',
+                    pipingColor: '#ffffff',
+                    pipingSize: '1.5'
+                };
 //                createRectangleCake(rectangleCakeData);
 
-//                //SQUARE CAKES 
-//                var squareCakeData = new Array();
-//                squareCakeData['1'] = {
-//                    size: [25],
-//                    side: 'side_1.png',
-//                    pipingColor: '#ffffff',
-//                    pipingSize: '1.2'
-//                };
-//                squareCakeData['2'] = {
-//                    size: [22],
-//                    side: 'side_2.png',
-//                    pipingColor: '#0000ff',
-//                    pipingSize: '1'
-//                };
-//                squareCakeData['3'] = {
-//                    size: [16],
-//                    side: 'side_3.png',
-//                    pipingColor: '#ff0000',
-//                    pipingSize: '0.8'
-//                };
+                //SQUARE CAKES 
+                var squareCakeData = new Array();
+                squareCakeData['1'] = {
+                    size: [25],
+                    side: 'side_1.png',
+                    pipingColor: '#ffffff',
+                    pipingSize: '1.2'
+                };
+                squareCakeData['2'] = {
+                    size: [22],
+                    side: 'side_2.png',
+                    pipingColor: '#0000ff',
+                    pipingSize: '1'
+                };
+                squareCakeData['3'] = {
+                    size: [16],
+                    side: 'side_3.jpg',
+                    pipingColor: '#ff0000',
+                    pipingSize: '0.8'
+                };
 //                createSquareCake(squareCakeData);
 
 
@@ -421,8 +422,7 @@
              */
             function createRoundCake(cakeData) {
 //ROUND CAKES
-                var tierRadius;
-                var boardWidth, boardPadding, boardHeight;
+                var boardPadding, boardHeight;
                 boardPadding = 5 * zoomRatio;
                 boardHeight = 0.5 * zoomRatio;
 
@@ -430,148 +430,27 @@
                 var pipingImage = new Image();
                 pipingImage.onload = function() {
                     if (cakeData[1]) {
-                        var tier1Cylinder = createRoundTier(cakeData[1].size[0] * zoomRatio, 'top.jpg', cakeData[1].side, pipingImage);
+                        var boardCylinder = createRoundTier(cakeData[1].size[0] * zoomRatio + boardPadding, boardHeight, 'board.svg', 'board.svg');
+                        boardCylinder.position.set(0, (tierHeight + boardHeight) / -2, 0);
+                        scene.add(boardCylinder);
+
+                        var tier1Cylinder = createRoundTier(cakeData[1].size[0] * zoomRatio, tierHeight, 'top.jpg', cakeData[1].side, pipingImage);
                         tier1Cylinder.position.set(0, 0, 0);
                         scene.add(tier1Cylinder);
 
                         if (cakeData[2]) {
-                            var tier2Cylinder = createRoundTier(cakeData[2].size[0] * zoomRatio, 'top.jpg', cakeData[2].side, pipingImage);
+                            var tier2Cylinder = createRoundTier(cakeData[2].size[0] * zoomRatio, tierHeight, 'top.jpg', cakeData[2].side, pipingImage);
                             tier2Cylinder.position.set(0, tierHeight, 0);
                             scene.add(tier2Cylinder);
                             if (cakeData[3]) {
-                                var tier3Cylinder = createRoundTier(cakeData[3].size[0] * zoomRatio, 'top.jpg', cakeData[3].side, pipingImage);
+                                var tier3Cylinder = createRoundTier(cakeData[3].size[0] * zoomRatio, tierHeight, 'top.jpg', cakeData[3].side, pipingImage);
                                 tier3Cylinder.position.set(0, tierHeight * 2, 0);
                                 scene.add(tier3Cylinder);
                             }
                         }
-
-
-//                        tierRadius = cakeData[1].size[0] * zoomRatio;
-//
-//                        boardWidth = tierRadius + boardPadding;
-//                        var boardCube = createSquareCube(boardWidth, boardHeight, 'board.svg');
-//                        boardCube.position.set(0, (tierHeight + boardHeight) / -2, 0);
-//
-//                        var boardTopMaterial = boardCube.material.materials[2];
-//                        var boardTopCtx = boardTopMaterial.map.image.getContext('2d');
-//                        scene.add(boardCube);
-//
-//                        var tier1Cube = createSquareCube(tierRadius, tierHeight, 'ferg_sidestrip_icing/sidestrip_icing_blue.svg');
-//                        tier1Cube.position.set(0, 0, 0);
-//
-//                        var tier1SideMaterial = tier1Cube.material.materials[0];
-//                        var tier1TopMaterial = tier1Cube.material.materials[2];
-//                        var tier1SideCtx = tier1SideMaterial.map.image.getContext('2d');
-//                        var tier1TopCtx = tier1TopMaterial.map.image.getContext('2d');
-//                        scene.add(tier1Cube);
-//
-//                        //Draw side image
-//                        var tier1Side = new Image();
-//                        tier1Side.onload = function() {
-//                            tierRadius = cakeData[1].size[0] * zoomRatio;
-//
-//                            var sideImageCanvas = document.createElement("canvas");
-//                            var sideImageCtx = sideImageCanvas.getContext('2d');
-//                            sideImageCanvas.width = tierHeight * tier1Side.width / tier1Side.height;
-//                            sideImageCanvas.height = tierHeight;
-//                            sideImageCtx.drawImage(tier1Side, 0, 0, tier1Side.width, tier1Side.height, 0, 0, sideImageCanvas.width, sideImageCanvas.height);
-//                            addSidePiping(sideImageCtx, pipingImage, cakeData[1].pipingSize, cakeData[1].pipingColor);
-//                            var sideImagePattern = sideImageCtx.createPattern(sideImageCanvas, 'repeat');
-//
-//                            tier1SideCtx.fillStyle = sideImagePattern;
-//                            tier1SideCtx.fill();
-//                            tier1SideMaterial.map.needsUpdate = true;
-//
-//                            addTopPiping(tier1TopCtx, tierRadius, tierRadius, pipingImage, cakeData[1].pipingSize, cakeData[1].pipingColor);
-//                            tier1TopMaterial.map.needsUpdate = true;
-//
-////                            addBottomPiping(boardTopCtx, boardWidth, boardWidth, tierWidth, tierWidth, pipingImage, cakeData[1].pipingSize, cakeData[1].pipingColor);
-////                            boardTopMaterial.map.needsUpdate = true;
-//
-//                        };
-//                        tier1Side.src = cakeData[1].side;
-//                        if (cakeData[2]) {
-//                            tierRadius = cakeData[2].size[0] * zoomRatio;
-//
-//                            var tier2Cube = createSquareCube(tierRadius, tierHeight, 'ferg_sidestrip_icing/sidestrip_icing_green.svg');
-//                            tier2Cube.position.set(0, tierHeight, 0);
-//
-//                            var tier2SideMaterial = tier2Cube.material.materials[0];
-//                            var tier2TopMaterial = tier2Cube.material.materials[2];
-//                            var tier2SideCtx = tier2SideMaterial.map.image.getContext('2d');
-//                            var tier2TopCtx = tier2TopMaterial.map.image.getContext('2d');
-//
-//                            scene.add(tier2Cube);
-//
-//                            //Draw Side Image
-//                            var tier2Side = new Image();
-//                            tier2Side.onload = function() {
-//                                tierRadius = cakeData[2].size[0] * zoomRatio;
-//
-//                                var sideImageCanvas = document.createElement("canvas");
-//                                var sideImageCtx = sideImageCanvas.getContext('2d');
-//                                sideImageCanvas.width = tierHeight * tier2Side.width / tier2Side.height;
-//                                sideImageCanvas.height = tierHeight;
-//                                sideImageCtx.drawImage(tier2Side, 0, 0, tier2Side.width, tier2Side.height, 0, 0, sideImageCanvas.width, sideImageCanvas.height);
-//                                addSidePiping(sideImageCtx, pipingImage, cakeData[2].pipingSize, cakeData[2].pipingColor);
-//                                var sideImagePattern = sideImageCtx.createPattern(sideImageCanvas, 'repeat');
-//
-//                                tier2SideCtx.fillStyle = sideImagePattern;
-//                                tier2SideCtx.fill();
-//                                tier2SideMaterial.map.needsUpdate = true;
-//
-//                                addTopPiping(tier2TopCtx, tierRadius, tierRadius, pipingImage, cakeData[2].pipingSize, cakeData[2].pipingColor);
-//                                tier2TopMaterial.map.needsUpdate = true;
-//
-////                            addBottomPiping(tier1TopCtx, cakeData[1].size[0] * zoomRatio, cakeData[1].size[0] * zoomRatio, tierWidth, tierWidth, pipingImage, cakeData[2].pipingWidth, cakeData[2].pipingColor);
-////                            tier1TopMaterial.map.needsUpdate = true;
-//                            };
-//                            tier2Side.src = cakeData[2].side;
-//
-//                            if (cakeData[3]) {
-//                                tierRadius = cakeData[3].size[0] * zoomRatio;
-//
-//                                var tier3Cube = createSquareCube(tierRadius, tierHeight, 'ferg_sidestrip_icing/sidestrip_icing_ivory.svg');
-//                                tier3Cube.position.set(0, tierHeight * 2, 0);
-//
-//                                var tier3SideMaterial = tier3Cube.material.materials[0];
-//                                var tier3TopMaterial = tier3Cube.material.materials[2];
-//                                var tier3SideCtx = tier3SideMaterial.map.image.getContext('2d');
-//                                var tier3TopCtx = tier3TopMaterial.map.image.getContext('2d');
-//
-//                                scene.add(tier3Cube);
-//
-//                                var tier3Side = new Image();
-//                                tier3Side.onload = function() {
-//                                    tierRadius = cakeData[3].size[0] * zoomRatio;
-//
-//                                    var sideImageCanvas = document.createElement("canvas");
-//                                    var sideImageCtx = sideImageCanvas.getContext('2d');
-//                                    sideImageCanvas.width = tierHeight * tier3Side.width / tier3Side.height;
-//                                    sideImageCanvas.height = tierHeight;
-//                                    sideImageCtx.drawImage(tier3Side, 0, 0, tier3Side.width, tier3Side.height, 0, 0, sideImageCanvas.width, sideImageCanvas.height);
-//                                    addSidePiping(sideImageCtx, pipingImage, cakeData[3].pipingSize, cakeData[3].pipingColor);
-//                                    var sideImagePattern = sideImageCtx.createPattern(sideImageCanvas, 'repeat');
-//
-//                                    tier3SideCtx.fillStyle = sideImagePattern;
-//                                    tier3SideCtx.fill();
-//                                    tier3SideMaterial.map.needsUpdate = true;
-//
-//                                    addTopPiping(tier3TopCtx, tierRadius, tierRadius, pipingImage, cakeData[3].pipingSize, cakeData[3].pipingColor);
-//                                    tier3TopMaterial.map.needsUpdate = true;
-//
-////                            addBottomPiping(tier2TopCtx, cakeData[2].size[0] * zoomRatio, cakeData[2].size[0] * zoomRatio, tierWidth, tierWidth, pipingImage, cakeData[3].pipingSize, cakeData[3].pipingColor);
-////                            tier2TopMaterial.map.needsUpdate = true;
-//                                };
-//                                tier3Side.src = cakeData[3].side;
-//                            }
-//                        }
                     }
                 };
                 pipingImage.src = 'piping_one.png';
-            }
-
-            function createCylinder() {
             }
 
             function addSidePiping(context, piping, pipingWidth, pipingColor) {
@@ -755,31 +634,31 @@
                 return cube;
             }
 
-            function createRoundCylinder(radius, height, sideDesign) {
-                var cylinderGeometry = new THREE.CylinderGeometry(radius, radius, height, 100, 1, false);
-//                var cubeGeometry = new THREE.CubeGeometry(radius, height, radius);
+//            function createRoundCylinder(radius, height, sideDesign) {
+//                var cylinderGeometry = new THREE.CylinderGeometry(radius, radius, height, 100, 1, false);
+////                var cubeGeometry = new THREE.CubeGeometry(radius, height, radius);
+//
+//                var leftMaterial = createCubeSide(radius, height, sideDesign);
+//                var rightMaterial = leftMaterial.clone();
+//                var frontMaterial = leftMaterial.clone();
+//                var backMaterial = leftMaterial.clone();
+//                var topMaterial = createCubeTop(radius, radius, sideDesign);
+//                var bottomMaterial = createCubeTop(radius, radius, sideDesign);
+//
+//                var faceMatterial = new THREE.MeshFaceMaterial([
+//                    leftMaterial,
+//                    rightMaterial,
+//                    topMaterial,
+//                    bottomMaterial,
+//                    frontMaterial,
+//                    backMaterial
+//                ]);
+//
+//                var cube = new THREE.Mesh(cylinderGeometry.clone(), faceMatterial);
+//                return cube;
+//            }
 
-                var leftMaterial = createCubeSide(radius, height, sideDesign);
-                var rightMaterial = leftMaterial.clone();
-                var frontMaterial = leftMaterial.clone();
-                var backMaterial = leftMaterial.clone();
-                var topMaterial = createCubeTop(radius, radius, sideDesign);
-                var bottomMaterial = createCubeTop(radius, radius, sideDesign);
-
-                var faceMatterial = new THREE.MeshFaceMaterial([
-                    leftMaterial,
-                    rightMaterial,
-                    topMaterial,
-                    bottomMaterial,
-                    frontMaterial,
-                    backMaterial
-                ]);
-
-                var cube = new THREE.Mesh(cylinderGeometry.clone(), faceMatterial);
-                return cube;
-            }
-
-            function createRoundTier(tierSize, topImage, sideImage, pipingImage) {
+            function createRoundTier(tierSize, tierHeight, topImage, sideImage, pipingImage) {
 //                        var pipingSize = 1.2 * zoomRatio;
 
                 var cylinderSideGeometry = new THREE.CylinderGeometry(tierSize, tierSize, tierHeight, 100.0, 10.0, true);
@@ -838,28 +717,37 @@
                     cylinderSideCanvas.width = tierSideImage.width;
                     cylinderSideCanvas.height = tierSideImage.height;
                     var cylinderSideCtx = cylinderSideCanvas.getContext('2d');
-                    cylinderSideCtx.drawImage(tierSideImage, 0, 0);
+                    if (sideImage.indexOf('svg', sideImage.length - 3) !== -1) {
+                        cylinderSideCtx.drawSvg(sideImage, 0, 0);
+                    } else {
+                        cylinderSideCtx.drawImage(tierSideImage, 0, 0);
+                    }
 
                     tierTopImage.onload = function() {
                         cylinderTopCanvas.width = tierTopImage.width;
                         cylinderTopCanvas.height = tierTopImage.height;
                         var cylinderTopCtx = cylinderTopCanvas.getContext('2d');
-                        cylinderTopCtx.drawImage(tierTopImage, 0, 0);
-
-                        var topImageRadius = cylinderTopCanvas.width;
-                        var tierSize = 2 * Math.PI * topImageRadius;
-                        var pipingWidth = pipingImage.width;
-                        var pipingNumber = Math.round(tierSize / pipingWidth);
-                        var rorateAngle = 2 * Math.PI / pipingNumber;
-                        var sideImageWidthStep = cylinderSideCanvas.width / pipingNumber;
-                        cylinderTopCtx.translate(topImageRadius / 2, topImageRadius / 2);
-                        for (var i = 0; i < pipingNumber; i++) {
-                            cylinderTopCtx.drawImage(pipingImage, topImageRadius / 2 - pipingWidth / 2, 0);
-                            cylinderTopCtx.rotate(rorateAngle);
-                            cylinderSideCtx.drawImage(pipingImage, (i - 1) * sideImageWidthStep, -pipingWidth / 2);
-                            cylinderSideCtx.drawImage(pipingImage, (i - 1) * sideImageWidthStep, cylinderSideCanvas.height - pipingWidth / 2);
+                        if (topImage.indexOf('svg', topImage.length - 3) !== -1) {
+                            cylinderTopCtx.drawSvg(topImage, 0, 0);
+                        } else {
+                            cylinderTopCtx.drawImage(tierTopImage, 0, 0);
                         }
 
+                        if (pipingImage) {
+                            var topImageRadius = cylinderTopCanvas.width;
+                            var tierSize = 2 * Math.PI * topImageRadius;
+                            var pipingWidth = pipingImage.width;
+                            var pipingNumber = Math.round(tierSize / pipingWidth);
+                            var rorateAngle = 2 * Math.PI / pipingNumber;
+                            var sideImageWidthStep = cylinderSideCanvas.width / pipingNumber;
+                            cylinderTopCtx.translate(topImageRadius / 2, topImageRadius / 2);
+                            for (var i = 0; i < pipingNumber; i++) {
+                                cylinderTopCtx.drawImage(pipingImage, topImageRadius / 2 - pipingWidth / 2, 0);
+                                cylinderTopCtx.rotate(rorateAngle);
+                                cylinderSideCtx.drawImage(pipingImage, (i - 1) * sideImageWidthStep, -pipingWidth / 2);
+                                cylinderSideCtx.drawImage(pipingImage, (i - 1) * sideImageWidthStep, cylinderSideCanvas.height - pipingWidth / 2);
+                            }
+                        }
                         cylinderSideTexture.needsUpdate = true;
                         cylinderTopTexture.needsUpdate = true;
                     };
