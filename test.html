@@ -1,0 +1,170 @@
+<!doctype html>
+<html>
+    <head>
+        <title>My first Three.js app</title>
+        <style>canvas { width: 775px; height: 775px; margin: 0 auto; }</style>
+        <!--[if IE]><script src="excanvas.js"></script><![endif]-->
+        <script type="text/javascript" src="http://canvg.googlecode.com/svn/trunk/rgbcolor.js"></script> 
+        <script type="text/javascript" src="http://canvg.googlecode.com/svn/trunk/StackBlur.js"></script>
+        <script type="text/javascript" src="http://canvg.googlecode.com/svn/trunk/canvg.js"></script> 
+        <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="https://rawgithub.com/mrdoob/three.js/master/build/three.js"></script>
+    </head>
+    <body>
+        <div id="cake_preview"></div>
+        <script>
+            var cakeData = new Object();
+            cakeData.preview = new Object();
+
+            cakeData.preview.camera = new THREE.PerspectiveCamera(45, 1, 1, 10000);
+            cakeData.preview.camera.position.x = 500;
+            cakeData.preview.camera.position.y = 500;
+            cakeData.preview.camera.position.z = 700;
+            cakeData.preview.camera.lookAt(new THREE.Vector3(0, 0, 0));
+            cakeData.preview.scene = new THREE.Scene();
+
+            // @TODO Need to detect if the browser has webgl, canvas or fall back to IE7/IE8 canvas emulaotr
+//            cakeData.preview.renderer = new THREE.CanvasRenderer();
+            cakeData.preview.renderer = new THREE.WebGLRenderer();
+            cakeData.preview.renderer.setSize(755, 755);
+
+
+
+//Start Tier 1
+            cakeData.preview.tier1 = new Object();
+
+            cakeData.preview.tier1.width = 250;
+            cakeData.preview.tier1.height = 75;
+            cakeData.preview.tier1.depth = 250;
+            cakeData.preview.tier1.texture = 'http://local.host/BI/threejs/crate.jpg';
+
+//            cakeData.preview.geometry = new THREE.CubeGeometry(200, 200, 200, 10, 10, 10);
+            cakeData.preview.tier1.geometry = new THREE.CubeGeometry(cakeData.preview.tier1.width, cakeData.preview.tier1.height, cakeData.preview.tier1.depth);
+            cakeData.preview.tier1.material = new THREE.MeshFaceMaterial([
+                new THREE.MeshLambertMaterial({map: THREE.ImageUtils.loadTexture(cakeData.preview.tier1.texture), overdraw: true}),
+                new THREE.MeshLambertMaterial({map: THREE.ImageUtils.loadTexture(cakeData.preview.tier1.texture), overdraw: true}),
+                new THREE.MeshLambertMaterial({map: THREE.ImageUtils.loadTexture(cakeData.preview.tier1.texture), overdraw: true}),
+                new THREE.MeshLambertMaterial({map: THREE.ImageUtils.loadTexture(cakeData.preview.tier1.texture), overdraw: true}),
+                new THREE.MeshLambertMaterial({map: THREE.ImageUtils.loadTexture(cakeData.preview.tier1.texture), overdraw: true}),
+                new THREE.MeshLambertMaterial({map: THREE.ImageUtils.loadTexture(cakeData.preview.tier1.texture), overdraw: true})
+            ]);
+
+            cakeData.preview.tier1.mesh = new THREE.Mesh(cakeData.preview.tier1.geometry, cakeData.preview.tier1.material);
+            cakeData.preview.tier1.mesh.position.y = 0;
+            cakeData.preview.scene.add(cakeData.preview.tier1.mesh);
+
+//Start Tier 2
+            cakeData.preview.tier2 = new Object();
+
+            cakeData.preview.tier2.width = 220;
+            cakeData.preview.tier2.height = 75;
+            cakeData.preview.tier2.depth = 220;
+            cakeData.preview.tier2.texture = 'http://local.host/BI/threejs/crate.jpg';
+
+//            cakeData.preview.geometry = new THREE.CubeGeometry(200, 200, 200, 10, 10, 10);
+            cakeData.preview.tier2.geometry = new THREE.CubeGeometry(cakeData.preview.tier2.width, cakeData.preview.tier2.height, cakeData.preview.tier2.depth);
+            cakeData.preview.tier2.material = new THREE.MeshFaceMaterial([
+                new THREE.MeshLambertMaterial({map: THREE.ImageUtils.loadTexture(cakeData.preview.tier2.texture), overdraw: true}),
+                new THREE.MeshLambertMaterial({map: THREE.ImageUtils.loadTexture(cakeData.preview.tier2.texture), overdraw: true}),
+                new THREE.MeshLambertMaterial({map: THREE.ImageUtils.loadTexture(cakeData.preview.tier2.texture), overdraw: true}),
+                new THREE.MeshLambertMaterial({map: THREE.ImageUtils.loadTexture(cakeData.preview.tier2.texture), overdraw: true}),
+                new THREE.MeshLambertMaterial({map: THREE.ImageUtils.loadTexture(cakeData.preview.tier2.texture), overdraw: true}),
+                new THREE.MeshLambertMaterial({map: THREE.ImageUtils.loadTexture(cakeData.preview.tier2.texture), overdraw: true})
+            ]);
+
+            cakeData.preview.tier2.mesh = new THREE.Mesh(cakeData.preview.tier2.geometry, cakeData.preview.tier2.material);
+            cakeData.preview.tier2.mesh.position.y = (cakeData.preview.tier1.height + cakeData.preview.tier2.height) / 2;
+            cakeData.preview.scene.add(cakeData.preview.tier2.mesh);
+
+//Start Tier 3
+            cakeData.preview.tier3 = new Object();
+
+            cakeData.preview.tier3.width = 160;
+            cakeData.preview.tier3.height = 75;
+            cakeData.preview.tier3.depth = 160;
+            cakeData.preview.tier3.sideTexture = THREE.ImageUtils.loadTexture("http://local.host/BI/threejs/1.jpg", new THREE.UVMapping());
+            cakeData.preview.tier3.sideTexture.repeat.set(4, 4);
+            cakeData.preview.tier3.sideTexture.wrapS = cakeData.preview.tier3.sideTexture.wrapT = THREE.RepeatWrapping;
+            cakeData.preview.tier3.sideTexture.anisotropy = 16;
+//            cakeData.preview.tier3.sideTexture.needsUpdate = true;
+//            cakeData.preview.tier3.sideTexture.mapping = new THREE.UVMapping();
+//            cakeData.preview.tier3.sideTexture.wrapS = THREE.RepeatWrapping;
+//            cakeData.preview.tier3.sideTexture.wrapT = THREE.RepeatWrapping;
+//            cakeData.preview.tier3.sideTexture.repeat.set(10, 10);
+
+//            cakeData.preview.geometry = new THREE.CubeGeometry(200, 200, 200, 10, 10, 10);
+            cakeData.preview.tier3.geometry = new THREE.CubeGeometry(cakeData.preview.tier3.width, cakeData.preview.tier3.height, cakeData.preview.tier3.depth);
+
+
+            var x = document.createElement("canvas");
+            var xc = x.getContext("2d");
+            x.width = x.height = 128;
+            xc.fillStyle = "#fff";
+            xc.fillRect(0, 0, 128, 128);
+            xc.fillStyle = "#000";
+            xc.fillRect(0, 0, 64, 64);
+            xc.fillStyle = "#999";
+            xc.fillRect(32, 32, 32, 32);
+            xc.fillStyle = "#000";
+            xc.fillRect(64, 64, 64, 64);
+            xc.fillStyle = "#555";
+            xc.fillRect(96, 96, 32, 32);
+
+            var testTexture = new THREE.Texture(x, new THREE.UVMapping(), THREE.RepeatWrapping, THREE.RepeatWrapping);
+//            var xm = new THREE.MeshBasicMaterial({map: new THREE.Texture(x, new THREE.UVMapping(), THREE.RepeatWrapping, THREE.RepeatWrapping)});
+            var xm = new THREE.MeshLambertMaterial({map: testTexture});
+            xm.map.needsUpdate = true;
+            xm.map.repeat.set(2, 2);
+
+
+            cakeData.preview.tier3.material = new THREE.MeshFaceMaterial([
+                new THREE.MeshLambertMaterial({map: cakeData.preview.tier3.sideTexture}),
+                new THREE.MeshLambertMaterial({map: cakeData.preview.tier3.sideTexture}),
+                xm,
+                new THREE.MeshBasicMaterial({map: cakeData.preview.tier3.sideTexture}),
+                new THREE.MeshLambertMaterial({map: cakeData.preview.tier3.sideTexture}),
+                new THREE.MeshLambertMaterial({map: cakeData.preview.tier3.sideTexture}),
+//                new THREE.MeshBasicMaterial({map: cakeData.preview.tier3.sideTexture})
+//                xm,
+//                xm,
+//                xm,
+//                xm,
+//                xm
+            ]);
+
+            cakeData.preview.tier3.mesh = new THREE.Mesh(cakeData.preview.tier3.geometry, cakeData.preview.tier3.material);
+            cakeData.preview.tier3.mesh.position.y = (cakeData.preview.tier1.height + cakeData.preview.tier3.height) / 2 + cakeData.preview.tier2.height;
+            cakeData.preview.scene.add(cakeData.preview.tier3.mesh);
+
+            cakeData.preview.containerCanvas = document.getElementById('cake_preview'); // document.getElementById( 'canvas' );
+            cakeData.preview.containerCanvas.appendChild(cakeData.preview.renderer.domElement);
+
+            // add subtle ambient lighting
+            var ambientLight = new THREE.AmbientLight(0xbbbbbb);
+            cakeData.preview.scene.add(ambientLight);
+
+            // directional lighting
+            var directionalLight = new THREE.DirectionalLight(0xffffff);
+            directionalLight.position.set(1, 1, 1).normalize();
+            cakeData.preview.scene.add(directionalLight);
+
+            var render = function() {
+                requestAnimationFrame(render);
+//                cakeData.preview.tier3.mesh.rotation.y += 0.02;
+                cakeData.preview.renderer.render(cakeData.preview.scene, cakeData.preview.camera);
+            };
+
+            render();
+
+            function test() {
+                cakeData.preview.tier3.material[0] = xm;
+                cakeData.preview.tier3.material[1] = xm;
+                cakeData.preview.tier3.material[2] = xm;
+                cakeData.preview.tier3.material[3] = xm;
+            }
+
+        </script>
+
+        <button onclick="test();">Test</button>
+    </body>
+</html>
